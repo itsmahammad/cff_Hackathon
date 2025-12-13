@@ -5,13 +5,13 @@ namespace CffHackathon.Infrastructure.Data
     public class ApplicationDbContext(DbContextOptions options) : DbContext(options), IApplicationDbContext
     {
 
-        public DbSet<Category> Categories => Set<Category>();
-        public DbSet<MenuItem> MenuItems => Set<MenuItem>();
-        public DbSet<Order> Orders => Set<Order>();
-        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
-        public DbSet<Table> Tables => Set<Table>();
-        public DbSet<Payment> Payments => Set<Payment>();
-        public DbSet<Reservation> Reservations => Set<Reservation>();
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Table> Tables { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
 
 
