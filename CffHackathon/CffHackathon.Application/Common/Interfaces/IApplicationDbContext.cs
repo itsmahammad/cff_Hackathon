@@ -2,7 +2,7 @@ namespace CffHackathon.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
      DbSet<MenuItem> MenuItems { get; set; }
      DbSet<Category> Categories { get; set; }
