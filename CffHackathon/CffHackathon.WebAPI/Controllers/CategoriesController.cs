@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CffHackathon.WebAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _category;
@@ -24,7 +26,6 @@ namespace CffHackathon.WebAPI.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
 
         public async Task<IActionResult> GetAllCategories()
         {
@@ -33,7 +34,6 @@ namespace CffHackathon.WebAPI.Controllers
             return Ok(response);
         }
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetCategory(int id)
         {
             var category = await _category.GetCategoryAsync(id);
@@ -41,7 +41,7 @@ namespace CffHackathon.WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
+        [HttpDelete("{categoryId}")]
         [Authorize(Roles ="Admin")]
         public async Task<IActionResult> RemoveCategory(int categoryId)
         {

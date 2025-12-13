@@ -4,9 +4,9 @@ using CffHackathon.Application.DTOs.Auth;
 using CffHackathon.Application.Common.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 
+[Route("api/[controller]")]
 [ApiController]
-[Route("api/auth")]
-public class AuthController : ControllerBase
+public class AuthController : Controller
 {
     private readonly IAuthService _authService;
 
