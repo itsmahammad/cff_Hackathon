@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CffHackathon.Domain.Entities
+namespace CffHackathon.Domain.Enums
 {
-    internal class Entity
+    public enum OrderStatus
     {
+       Pending,
+       Preparing,
+       Done,
+       Paid
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace CffHackathon.Domain.Enums
 {
-    internal class Enum
+    public enum ReservationStatus
     {
+        Pending,
+        Confirmed,
+        Cancelled
     }
 }
