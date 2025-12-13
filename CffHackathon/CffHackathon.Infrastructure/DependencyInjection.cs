@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace CffHackathon.Infrastructure;
 
@@ -12,9 +13,11 @@ public static class DependencyInjection
             {
                 options.UseSqlServer(connectionString);
             });
-        
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-        
+
+        services.AddScoped<IApplicationDbContext>(p =>
+      p.GetRequiredService<ApplicationDbContext>());
+
+
         return services;
     }
 }
