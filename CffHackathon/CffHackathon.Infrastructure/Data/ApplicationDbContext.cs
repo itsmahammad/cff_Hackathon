@@ -4,6 +4,13 @@ namespace CffHackathon.Infrastructure.Data
 {
     public class ApplicationDbContext(DbContextOptions options) : DbContext(options), IApplicationDbContext
     {
+
+        public DbSet<Cate> SampleEntities { get; set; }
+
+
+
+
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             return await base.SaveChangesAsync(cancellationToken);

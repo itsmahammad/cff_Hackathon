@@ -8,7 +8,7 @@ namespace CffHackathon.Domain.Entities
 {
     public class Reservation:BaseEntity
     {
-        //public int CustomerId { get; set; }
+        public int CustomerId { get; set; }
         //public User Customer { get; set; }
 
         public int TableId { get; set; }
