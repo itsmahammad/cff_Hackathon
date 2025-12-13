@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace CffHackathon.Application.Common.Models.MenuItem
 {
-    internal class MenuItemCreateDto
+    public class MenuItemCreateDto
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public int CategoryId { get; set; }
+        public string? PhotoUrl { get; set; }
     }
 }
