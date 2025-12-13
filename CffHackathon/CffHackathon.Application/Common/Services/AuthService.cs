@@ -1,4 +1,5 @@
-﻿using CffHackathon.Domain.Entities;
+﻿using CffHackathon.Application.Common.Models.Response;
+using CffHackathon.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,15 @@ namespace CffHackathon.Application.Services
                 throw new Exception("Şifrə yanlışdır");
 
             return await _jwtService.GenerateToken(user);
+        }
+
+        public async Task<string> AssignedRole(string userId, string roleName)
+        {
+            var user=await _userManager.FindByIdAsync(userId);
+          var result= await _userManager.AddToRoleAsync(user,roleName);
+            if(!result.Succeeded)
+                    throw new Exception(result.Errors.First().Description);
+            return "Role assigned successfully";
         }
     }
 

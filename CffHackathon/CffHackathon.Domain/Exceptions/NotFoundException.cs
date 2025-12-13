@@ -8,11 +8,12 @@ namespace CffHackathon.Domain.Exceptions
 {
     public class NotFoundException : BaseException
     {
-        public NotFoundException(string message) : base(message, 404)
-        {
-        }
         public NotFoundException() : base("resource not found", 404)
         {
         }
+        public NotFoundException(string message) : base(message, 404)
+        {
+        }
+      
     }
 }

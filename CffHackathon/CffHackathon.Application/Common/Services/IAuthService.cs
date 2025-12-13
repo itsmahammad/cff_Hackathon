@@ -10,5 +10,6 @@ namespace CffHackathon.Application.Services
     {
         Task RegisterAsync(string email, string password);
         Task<string> LoginAsync(string email, string password);
+        Task<string> AssignedRole(string userId, string roleName);
     }
 }
