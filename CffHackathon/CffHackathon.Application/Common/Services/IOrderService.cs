@@ -22,10 +22,25 @@ namespace CffHackathon.Application.Common.Services
     {
         public async Task AddOrderAsync(CreatedOrderDto createDto)
         {
+            
             Order order = new Order
             {
-                TableId = createDto.TableId
+                TableId = createDto.TableId,
+                CustomerId =createDto.CustomerId
+               
             };
+
+            foreach (var item in createDto.Items)
+            {
+                var menuItem = await dbContext.MenuItems.FirstOrDefaultAsync(x => x.Id == item.MenuItemId);
+                OrderItem orderItem = new OrderItem
+                {
+                    Quantity = item.Quantity,
+                    Price = menuItem.Price
+                };
+
+                order.OrderItems.Add(orderItem);
+            }
             await dbContext.Orders.AddAsync(order);
             await dbContext.SaveChangesAsync();
         }
@@ -73,7 +88,6 @@ namespace CffHackathon.Application.Common.Services
             }
             dbContext.Orders.Remove(order);
             await dbContext.SaveChangesAsync();
-
         }
     }
 }

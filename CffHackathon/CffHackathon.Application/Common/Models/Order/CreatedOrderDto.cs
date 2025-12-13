@@ -11,7 +11,7 @@ namespace CffHackathon.Application.Common.Models.Order
     {
         
         public int TableId { get; set; }
-        
+        public string CustomerId { get; set; }
         public List<CreatedOrderItemDto> Items { get; set; }
     }
 }
