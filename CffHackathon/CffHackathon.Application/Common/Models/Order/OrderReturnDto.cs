@@ -8,7 +8,7 @@ namespace CffHackathon.Application.Common.Models.Order
 {
     public class OrderReturnDto
     {
-        public int TableId { get; set; }
+        public string TableName { get; set; }
        
         public string Status { get; set; }
         public decimal TotalPrice { get; set; }
