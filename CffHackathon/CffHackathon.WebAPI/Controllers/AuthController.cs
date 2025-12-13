@@ -2,6 +2,7 @@
 using CffHackathon.Application.Services;
 using CffHackathon.Application.DTOs.Auth;
 using CffHackathon.Application.Common.Models.Response;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/auth")]
@@ -29,6 +30,14 @@ public class AuthController : ControllerBase
         
             var token = await _authService.LoginAsync(dto.Email, dto.Password);
         var response=Response<string>.Success(token, 200);
+        return Ok(response);
+    }
+    [HttpPost("AssignRole")]
+    [Authorize(Roles ="Admin")]
+    public async Task<IActionResult> AssignRole([FromForm] string userId,string roleName)
+    {
+        var result= await _authService.AssignedRole(userId,roleName);
+        var response=Response<string>.Success(result,200);
         return Ok(response);
     }
 }
