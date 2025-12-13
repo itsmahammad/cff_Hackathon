@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace CffHackathon.Domain.Enums
 {
-    internal class Enum
+    public enum OrderStatus
     {
+       Pending,
+       Preparing,
+       Done,
+       Paid
     }
 }
