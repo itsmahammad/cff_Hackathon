@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace CffHackathon.Application.Common.Models.Reservation
 {
-    internal class ReservationAddDto
+    public class ReservationAddDto
     {
-        public int UserId { get; set; }
-        public int RoomId { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public int TableId { get; set; }
+        public DateTime StartDateTime { get; set; }
     }
 }

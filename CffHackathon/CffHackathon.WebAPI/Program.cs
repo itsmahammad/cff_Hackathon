@@ -1,4 +1,5 @@
 using CffHackathon.Application;
+using CffHackathon.Application.Common.Services;
 using CffHackathon.Application.Services;
 using CffHackathon.Domain.Entities;
 using CffHackathon.Infrastructure;
@@ -21,7 +22,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddScoped<IAuthService,AuthService>();
 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
