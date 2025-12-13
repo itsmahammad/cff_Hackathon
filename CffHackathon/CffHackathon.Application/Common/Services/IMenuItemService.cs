@@ -21,7 +21,7 @@ namespace CffHackathon.Application.Common.Services
         Task<List<MenuItemReturnDto>> GetAllMenuItemsAsync();
         Task RemoveMenuItemAsync(int id);
         Task CreateMenuItemAsync(MenuItemCreateDto menuItemDto);
-        Task GetMenuItemByCategoryId(int categoryId);
+        Task<MenuItemReturnDto> GetMenuItemByCategoryId(int categoryId);
     }
     public class MenuItemService(IApplicationDbContext dbContext) : IMenuItemService
     {
@@ -59,9 +59,9 @@ namespace CffHackathon.Application.Common.Services
             return menuItems;
         }
 
-        public Task GetMenuItemByCategoryId(int categoryId)
+        public async Task<MenuItemReturnDto> GetMenuItemByCategoryId(int categoryId)
         {
-            var menuItems = dbContext.MenuItems.Where(mi => mi.CategoryId == categoryId)
+            var menuItem =await dbContext.MenuItems.Where(mi => mi.CategoryId == categoryId)
                 .Select(mi => new MenuItemReturnDto
                 {
                     Id = mi.Id,
@@ -71,8 +71,8 @@ namespace CffHackathon.Application.Common.Services
                     Price = mi.Price,
                     CategoryName = mi.Category.Name,
                     IsAvailable = mi.IsAvailable
-                }).ToListAsync();
-            return menuItems;
+                }).FirstOrDefaultAsync();
+            return  menuItem;
         }
 
         public Task<MenuItemReturnDto> GetMenuItemByIdAsync(int id)
@@ -95,7 +95,7 @@ namespace CffHackathon.Application.Common.Services
             return menuItem;
         }
 
-        public async Task RemoveMenuItemAsync(int id)
+        public async  Task  RemoveMenuItemAsync(int id)
         {
             var menuItem = await dbContext.MenuItems.FindAsync(id);
             if (menuItem == null)
@@ -103,7 +103,9 @@ namespace CffHackathon.Application.Common.Services
                 throw new NotFoundException($"MenuItem with id {id} not found.");
             }
             dbContext.MenuItems.Remove(menuItem);
+
             await dbContext.SaveChangesAsync();
+            
         }
     }
 }
