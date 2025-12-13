@@ -1,0 +1,6 @@
+@CffHackathon.WebAPI_HostAddress = http://localhost:5198
+
+GET {{CffHackathon.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
