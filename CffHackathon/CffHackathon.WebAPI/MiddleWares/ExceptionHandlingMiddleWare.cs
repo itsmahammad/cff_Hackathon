@@ -1,0 +1,95 @@
+﻿using CffHackathon.Application.Common.Models.Response;
+using CffHackathon.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
+
+namespace CffHackathon.WebApi.MiddleWares;
+
+public class ExceptionHandlingMiddleware(
+    RequestDelegate next,
+    ILogger<ExceptionHandlingMiddleware> logger)
+{
+    private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase
+    };
+    public async Task InvokeAsync(HttpContext context)
+    {
+        logger.LogDebug("ExceptionHandlingMiddleware invoked.");
+        try
+        {
+            await next(context);
+        }
+        catch (AggregateExceptionBase ex)
+        {
+            if (context.Response.HasStarted)
+            {
+                logger.LogWarning("Response has already started, cannot write error response.");
+                return;
+            }
+            LogError(ex);
+            await HandleAggregateException(context, ex);
+        }
+        catch (BaseException ex)
+        {
+            if (context.Response.HasStarted)
+            {
+                logger.LogWarning("Response has already started, cannot write error response.");
+                return;
+            }
+            LogError(ex);
+            await HandleExceptionAsync(context, ex);
+        }
+        catch (Exception ex)
+        {
+            if (context.Response.HasStarted)
+            {
+                logger.LogWarning("Response has already started, cannot write error response.");
+                return;
+            }
+            LogError(ex);
+            await HandleExceptionAsync(context, ex);
+        }
+    }
+    private static Task HandleAggregateException(HttpContext context, AggregateExceptionBase ex)
+    {
+        if (context.Response.HasStarted)
+            return Task.CompletedTask;
+        var statusCode = (ex as BaseException)?.StatusCode ?? 500;
+        var response = Response<string>.Fail(ex.Errors, statusCode);
+
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = statusCode;
+
+        return context.Response.WriteAsync(JsonSerializer.Serialize(response, _jsonOptions));
+    }
+
+    private static Task HandleExceptionAsync(HttpContext context, Exception ex)
+    {
+        if (context.Response.HasStarted)
+            return Task.CompletedTask;
+        var statusCode = (ex as BaseException)?.StatusCode ?? 500;
+
+        var response = Response<string>.Fail($"{ex.Message}", statusCode);
+
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = statusCode;
+
+        return context.Response.WriteAsync(JsonSerializer.Serialize(response, _jsonOptions));
+    }
+
+    private void LogError(Exception ex)
+    {
+        var st = new System.Diagnostics.StackTrace(ex, true);
+        var frame = st.GetFrames()?.FirstOrDefault(f => f.GetFileLineNumber() > 0);
+        var fileName = frame?.GetFileName();
+        var line = frame?.GetFileLineNumber();
+        var method = frame?.GetMethod()?.Name;
+        logger.LogError(
+            $"Error: {ex.Message}\nFile: {fileName} | Line: {line} | Time: {DateTime.Now:HH:mm:ss} "
+        );
+    }
+}
+
