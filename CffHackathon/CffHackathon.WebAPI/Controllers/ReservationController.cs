@@ -11,23 +11,24 @@ namespace CffHackathon.WebAPI.Controllers
     [ApiController]
     public class ReservationController : ControllerBase
     {
-        private readonly ReservationService _reservationService;
-        public ReservationController(ReservationService reservationService)
+        private readonly IReservationService _reservationService;
+        public ReservationController(IReservationService reservationService)
         {
             _reservationService = reservationService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Reserve(ReservationAddDto dto, string customerId)
+        public async Task<IActionResult> Reserve(ReservationAddDto dto)
         {
-            var result = await _reservationService.ReserveAsync(dto, customerId);
-            var response = Response<ReservationInfoDto>.Success(result, 200);
+            var result = await _reservationService.CreateReservationAsync(dto);
+            var response = Response<int>.Success(result, 200);
             return Ok(response);
         }
-        [HttpGet("{customerId}")]
-        public async Task<IActionResult> GetReservationsByCustomer(string customerId)
+        [HttpGet("{tableId}")]
+        public async Task<IActionResult> GetReservationsByTable(string tableId)
         {
-            var response = Response<List<ReservationInfoDto>>.Success(await _reservationService.GetReservationsByCustomer(customerId), 200);
+            var result = await _reservationService.GetReservationsByTableIdAsync(int.Parse(tableId));
+            var response = Response<List<ReservationInfoDto>>.Success(result, 200);
             return Ok(response);
         }
     }

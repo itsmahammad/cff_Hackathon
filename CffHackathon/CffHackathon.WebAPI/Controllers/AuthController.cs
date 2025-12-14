@@ -32,12 +32,21 @@ public class AuthController : Controller
         var response=Response<string>.Success(token, 200);
         return Ok(response);
     }
+
     [HttpPost("AssignRole")]
     [Authorize(Roles ="Admin")]
     public async Task<IActionResult> AssignRole([FromForm] string userId,string roleName)
     {
         var result= await _authService.AssignedRole(userId,roleName);
         var response=Response<string>.Success(result,200);
+        return Ok(response);
+    }
+
+    [HttpGet("Waiters")]
+    public async Task<IActionResult> GetWaiters()
+    {
+        var waiters = await _authService.GetUsersByRoleAsync("Waiter");
+        var response = Response<List<UserDto>>.Success(waiters, 200);
         return Ok(response);
     }
 }

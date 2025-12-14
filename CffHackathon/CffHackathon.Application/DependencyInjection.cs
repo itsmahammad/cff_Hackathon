@@ -3,6 +3,7 @@ using CffHackathon.Application.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using CffHackathon.Application.Common.Services;
 
 namespace CffHackathon.Application;
 
@@ -15,7 +16,9 @@ public static class DependencyInjection
         //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IMenuItemService, MenuItemService>();
-        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ITableService, TableService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IReservationService, ReservationService>();
         return services;
     }
 }

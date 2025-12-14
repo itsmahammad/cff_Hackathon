@@ -11,7 +11,7 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("Default");
         services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                options.UseNpgsql(connectionString);
             });
 
         services.AddScoped<IApplicationDbContext>(p =>

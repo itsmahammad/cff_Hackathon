@@ -28,7 +28,7 @@ namespace CffHackathon.WebAPI.Controllers
         public async Task<IActionResult> GetMenuItemByCategoryId(int categoryId)
         {
             var category = await _menuItem.GetMenuItemByCategoryId(categoryId);
-            var response = Response<MenuItemReturnDto>.Success(category, 200);
+            var response = Response<List<MenuItemReturnDto>>.Success(category, 200);
             return Ok(response);
         }
 

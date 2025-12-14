@@ -1,11 +1,8 @@
 ﻿using CffHackathon.Application.Common.Models.Response;
+using CffHackathon.Application.DTOs.Auth;
 using CffHackathon.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CffHackathon.Application.Services
 {
@@ -53,13 +50,37 @@ namespace CffHackathon.Application.Services
 
         public async Task<string> AssignedRole(string userId, string roleName)
         {
-            var user=await _userManager.FindByIdAsync(userId);
-          var result= await _userManager.AddToRoleAsync(user,roleName);
-            if(!result.Succeeded)
-                    throw new Exception(result.Errors.First().Description);
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.AddToRoleAsync(user, roleName);
+            if (!result.Succeeded)
+                throw new Exception(result.Errors.First().Description);
             return "Role assigned successfully";
+        }
+
+        public async Task<List<UserDto>> GetUsersByRoleAsync(string roleName)
+        {
+            var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
+
+            var userDtos = new List<UserDto>();
+
+            foreach (var user in usersInRole)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                userDtos.Add(new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    FullName = user.FullName,
+                    Roles = roles.ToList()
+                });
+            }
+
+            return userDtos;
         }
     }
 
 }
+
+
 
