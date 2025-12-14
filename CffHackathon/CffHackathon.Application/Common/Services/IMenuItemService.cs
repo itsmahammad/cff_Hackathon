@@ -21,7 +21,7 @@ namespace CffHackathon.Application.Common.Services
         Task<List<MenuItemReturnDto>> GetAllMenuItemsAsync();
         Task RemoveMenuItemAsync(int id);
         Task CreateMenuItemAsync(MenuItemCreateDto menuItemDto);
-        Task<MenuItemReturnDto> GetMenuItemByCategoryId(int categoryId);
+        Task<List<MenuItemReturnDto>> GetMenuItemByCategoryId(int categoryId);
     }
     public class MenuItemService(IApplicationDbContext dbContext) : IMenuItemService
     {
@@ -59,9 +59,9 @@ namespace CffHackathon.Application.Common.Services
             return menuItems;
         }
 
-        public async Task<MenuItemReturnDto> GetMenuItemByCategoryId(int categoryId)
+        public async Task<List<MenuItemReturnDto>> GetMenuItemByCategoryId(int categoryId)
         {
-            var menuItem =await dbContext.MenuItems.Where(mi => mi.CategoryId == categoryId)
+            var menuItems =await dbContext.MenuItems.Where(mi => mi.CategoryId == categoryId)
                 .Select(mi => new MenuItemReturnDto
                 {
                     Id = mi.Id,
@@ -71,8 +71,8 @@ namespace CffHackathon.Application.Common.Services
                     Price = mi.Price,
                     CategoryName = mi.Category.Name,
                     IsAvailable = mi.IsAvailable
-                }).FirstOrDefaultAsync();
-            return  menuItem;
+                }).ToListAsync();
+            return  menuItems;
         }
 
         public Task<MenuItemReturnDto> GetMenuItemByIdAsync(int id)

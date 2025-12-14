@@ -1,0 +1,6 @@
+services:
+  cffhackathon.webapi:
+    image: ${DOCKER_REGISTRY-}cffhackathonwebapi
+    build:
+      context: .
+      dockerfile: CffHackathon/CffHackathon.WebAPI/Dockerfile
