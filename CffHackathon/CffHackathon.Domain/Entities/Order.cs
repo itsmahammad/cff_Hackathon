@@ -12,5 +12,8 @@ namespace CffHackathon.Domain.Entities
         public OrderStatus  Status { get; set; }
         public int TableId { get; set; }
         public Table Table { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
+        public string CustomerId { get; set; }
+        public AppUser Customer { get; set; }
     }
 }

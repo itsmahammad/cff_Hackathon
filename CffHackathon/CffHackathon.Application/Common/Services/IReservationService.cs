@@ -80,7 +80,6 @@ namespace CffHackathon.Application.Common.Services
                 .Select(r => new ReservationInfoDto
                 {
                     Id = r.Id,
-                    CustomerId = r.CustomerId,
                     TableId = r.TableId,
                     TableNumber = r.Table.Number,
                     StartDateTime = r.StartDateTime,
@@ -99,7 +98,6 @@ namespace CffHackathon.Application.Common.Services
                 .Select(r => new ReservationInfoDto
                 {
                     Id = r.Id,
-                    CustomerId = r.CustomerId,
                     TableId = r.TableId,
                     TableNumber = r.Table.Number,
                     StartDateTime = r.StartDateTime,
@@ -123,7 +121,6 @@ namespace CffHackathon.Application.Common.Services
                 .Select(r => new ReservationInfoDto
                 {
                     Id = r.Id,
-                    CustomerId = r.CustomerId,
                     TableId = r.TableId,
                     TableNumber = r.Table.Number,
                     StartDateTime = r.StartDateTime,

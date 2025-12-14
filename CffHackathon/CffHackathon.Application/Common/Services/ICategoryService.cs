@@ -9,6 +9,7 @@ using CffHackathon.Domain.Exceptions;
 
 namespace CffHackathon.Application.Common.Services
 {
+
     public interface ICategoryService
     {
         Task AddCategoryAsync(CategoryCreateDto createDto);
